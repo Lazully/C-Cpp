@@ -1,0 +1,141 @@
+//Antônio Nery Lopes Neto RA: 200067
+//Letícia Lopes Fogaça RA: 200670
+
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<math.h>
+#include<conio.h>
+#include<locale.h>
+
+//funções 
+void calcuH(float a, float b, float z[100], int grau);
+void calcuIntervalo(float a, float b, float aux1, float aux2, float z[100], int grau);
+void calcuTabela(float a, float b, float h, int inter, float z[100], int grau);
+
+int main()
+{
+	setlocale(LC_ALL, "Portuguese");
+	
+	int grau, i;
+	float z[100], h, a, b;
+	char opfinal;
+	
+	do{
+	printf("Qual o grau da equação?");
+	scanf("%i", &grau);
+	
+	for(i=0; i<=grau; i++)
+	{
+		printf("Digite o valor do coeficiente de x a %i:\n", i);
+		scanf("%f", &z[i]);
+	}//for
+	
+	printf("Digite o intervalo para calcular H:\n");
+	printf("[a]");
+	scanf("%f", &a);
+	printf("[b]");
+	scanf("%f", &b);
+	
+calcuH(a, b, z, grau);
+	printf("Deseja calcular outra equação?(S/N)\n");
+	scanf("%s", &opfinal);
+
+	}while(opfinal== 'S' || opfinal== 's');
+	system("PAUSE");
+    return 0;
+}//main
+
+void calcuH(float a, float b, float z[100], int grau)
+{
+	float aux1, aux2;
+	char op;
+	
+	if(a>b)
+	{
+		aux2=a;
+		aux1=b;
+		
+		printf("\n\nOrdem trocada!");
+		printf("Ordem do intervalo: \n[a]=%.4f \n[b]=%.4f" , aux1, aux2);
+	}//troca caso a>b
+	else
+	{
+		printf("\n\nOrdem do intervalo: \n[a]=%.4f \n[b]=%.4f" , a, b);
+	}
+	do
+	{
+	calcuIntervalo(a, b, aux1, aux2, z, grau);
+	
+	printf("Deseja calcular com outra quantidade de intervalo?(S/N)\n");
+	scanf("%s", &op);
+	
+	}while(op== 'S'||op=='s');
+}//calculo de H
+
+void calcuIntervalo(float a, float b, float aux1, float aux2, float z[100], int grau)
+{
+	int inter, t[100], i;
+	float h;
+	
+	printf("\n\nDigite o número de divisões do intervalo:");
+	scanf("%i", &inter);
+	
+	if(a>b)
+	{
+		aux2=a;
+		aux1=b;
+		
+		printf("h=(%.4f - %.4f) / %i" , aux2, aux1, inter);
+		h=(a-b)/inter;
+	
+		printf("\n\nValor de H é %.4f", h);
+	}
+	else
+	{
+		printf("h=(%.4f - %.4f) / %i" , b, a, inter);
+		h=(b-a)/inter;
+		
+		printf("\n\nValor de H é %.4f", h);
+	}
+	
+calcuTabela(a, b, h, inter, z, grau);
+			
+}//intervalo de valores
+
+void calcuTabela(float a, float b, float h, int inter, float z[100], int grau)
+{
+	int i, j;
+	float aux3[100], u, y[100], aux4, mult, integral;
+	printf("\n\nTabela de Valores");
+	printf("\nX\tF(X)");
+	for(i=0; i<=inter; i++)
+	{
+		u+=h;
+		if(a<b)
+		{
+			aux3[i]=a+u-h;
+		}
+		else
+		{
+			aux3[i]=b+u-h;
+		}
+		for(j=0; j<=grau; j++)
+		{
+			y[i]+=z[j]*pow(aux3[i], j);
+		}
+		
+		printf("\n%.4f\t%.4f\n", aux3[i], y[i]);
+	}
+	
+	for(i=1; i<inter; i++)
+	{
+		aux4+=y[i];
+	}
+	mult=2*aux4;
+	integral=h/2*(y[0]+y[inter]+mult);
+	
+	printf("\n\nValor da integral: %.4f\n\n", integral);	
+}//tabela
+
+
+

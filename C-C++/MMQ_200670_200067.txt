@@ -1,0 +1,219 @@
+//Antônio Nery Lopes Neto RA: 200067
+//Letícia Lopes Fogaça RA: 200670
+
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<math.h>
+#include<conio.h>
+#include<locale.h>
+
+//funções
+void verificapontos (int qntpontos, float x[100], float y[100]);
+void reta(float x[100], float y[100], int qntpontos);
+void parabola(float x[100], float y[100], int qntpontos);
+
+int main()
+{
+    setlocale(LC_ALL, "Portuguese");
+	int qntpontos, i;
+	float x[100], y[100];
+	
+	printf("Qual a quantidade de pontos de x e f(x)?");
+	scanf("%i", &qntpontos);
+	
+	for(i=0; i<qntpontos; i++)
+	{
+		printf("\nDigite o valor do %iº x:", i+1);
+		scanf("%f", &x[i]);
+		printf("\nDigite o valor do %iº f(x):", i+1);
+		scanf("%f", &y[i]);
+	}//for	
+		
+	verificapontos(qntpontos, x ,y);
+		
+	system("PAUSE");
+    return 0;
+}//main
+
+void verificapontos(int qntpontos, float x[100], float y[100])
+{
+	int opcao;
+	char op;
+	
+	do
+	{
+		printf("\nDigite se quer reta (1) ou parábola (2):");
+		scanf("%i", &opcao);
+		if(opcao==1)
+		{
+			reta(x, y, qntpontos);
+		}//reta
+		else if(opcao==2)
+		{
+			parabola(x, y, qntpontos);
+		}
+		else
+		printf("\nOpção indisponível!!");
+				
+		printf("\nDeseja calcular o mesmo p(x) novamente?\n(S) para sim \n(N) para não\n");
+		scanf("%s", &op);
+
+	}while(op == 's' || op == 'S');
+}//verifica quantos pontos
+
+void reta(float x[100], float y[100], int qntpontos)
+{
+	int i;
+	float u0[100], u1[100], resul0, resul1, resul2, resul3, resul4, gauss, L0, L1, L2, a0, a1, aux1, aux2;
+	
+	printf("\nVetores:\n");
+	printf("\ny\t u0 \t u1");
+	
+		for(i=0; i<qntpontos; i++)
+		{
+				u0[i]=pow(x[i], 0);
+				u1[i]=pow(x[i], 1);
+				printf("\n%.2f\t %.2f\t %.2f\n", y[i], u0[i], u1[i]);	
+				
+				
+				resul0+=pow(x[i], 0)*pow(x[i], 0);
+				resul1+=pow(x[i], 1)*pow(x[i], 0);
+				resul2+=y[i]*pow(x[i], 0);
+				resul3+=pow(x[i], 1)*pow(x[i], 1);
+				resul4+=y[i]*pow(x[i], 1);
+		}//for da reta
+		printf("\n\n\nSistema Escalar:\n");
+		printf("\n%.2f \t %.2f \t %.2f \n%.2f \t %.2f \t %.2f\n\n", resul0, resul1, resul2, resul1, resul3, resul4);
+		
+		gauss=resul1/resul0;//calcular M21
+		
+		L0=resul1-resul0*gauss;
+		L1=resul3-resul1*gauss;
+		L2=resul4-resul2*gauss;
+		
+		printf("\n\nEliminação de Gauss:\n");
+		printf("\n%.2f \t %.2f \t %.2f \n %.2f \t %.2f \t %.2f\n\n", resul0, resul1, resul2, L0, L1, L2);
+		
+		a1=L2/L1;
+		
+		aux1=a1*resul1;
+		aux2=resul2-aux1;
+		a0=aux2/resul0;
+		
+		printf("\n\nRespostas:\n");
+		printf("\n a0=%.3f \n a1=%.3f\n\n", a0, a1);
+		
+		printf("A reta que melhor aproxima da função tabelada é p(x)= %.3f+ %.3fx\n\n", a0, a1);
+	
+}//reta
+
+void parabola(float x[100], float y[100], int qntpontos)
+{
+	int i;
+	float u0[100], u1[100], u2[100], soma0, soma1, soma2, soma3, soma4, soma5, soma6, soma7, soma8, gauss1, gauss2, gauss3, gauss4, gauss5,a0, a1, a2, aux1, aux2, aux3, aux4, aux5, eliminacao11, eliminacao12, eliminacao13, eliminacao14, eliminacao21, eliminacao22, eliminacao23, eliminacao24, eliminacao31, eliminacao32, eliminacao33, eliminacao34;
+	
+	printf("\nVetores:\n");
+	printf("\ny\t u0 \t u1 \t u2");
+	
+		for(i=0; i<qntpontos; i++)
+		{
+				u0[i]=pow(x[i], 0);
+				u1[i]=pow(x[i], 1);
+				u2[i]=pow(x[i], 2);
+				
+				printf("\n%.2f\t %.2f\t %.2f \t %.2f \n", y[i], u0[i], u1[i], u2[i]);	
+				
+				soma0+=pow(x[i], 0)*pow(x[i], 0);
+				soma1+=pow(x[i], 1)*pow(x[i], 0);
+				soma2+=pow(x[i], 2)*pow(x[i], 0);
+				soma3+=pow(x[i], 1)*pow(x[i], 1);
+				soma4+=pow(x[i], 2)*pow(x[i], 1);
+				soma5+=pow(x[i], 2)*pow(x[i], 2);
+				soma6+=y[i]*pow(x[i], 0);
+				soma7+=y[i]*pow(x[i], 1);
+				soma8+=y[i]*pow(x[i], 2);
+		}//for da parábola
+		printf("\n\n\nSistema Escalar:\n");
+		printf("\n %.2f \t %.2f \t %.2f \t %.2f \n %.2f \t %.2f \t %.2f \t %.2f \n %.2f \t %.2f \t %.2f \t %.2f ", soma0, soma1, soma2, soma6, soma1, soma3, soma4, soma7, soma2, soma4, soma5, soma8);
+		
+		gauss1=soma1/soma0;
+		gauss2=soma2/soma0;	
+		if(gauss1>1 && gauss2>1)//calcular usando primeira linha
+		{
+			eliminacao11=soma1-soma0*gauss1;
+			eliminacao12=soma3-soma1*gauss1;
+			eliminacao13=soma4-soma2*gauss1;
+			eliminacao14=soma7-soma6*gauss1;
+			
+			eliminacao21=soma2-soma0*gauss2;
+			eliminacao22=soma4-soma1*gauss2;
+			eliminacao23=soma5-soma2*gauss2;
+			eliminacao24=soma8-soma6*gauss2;
+			
+			gauss5=eliminacao22/eliminacao12;
+		
+			eliminacao31=eliminacao21-eliminacao11*gauss5;
+			eliminacao32=eliminacao22-eliminacao12*gauss5;
+			eliminacao33=eliminacao23-eliminacao13*gauss5;
+			eliminacao34=eliminacao24-eliminacao14*gauss5;
+		
+			printf("\n\nEliminação de Gauss:\n");
+			printf("\n %.2f \t %.2f \t %.2f \t %.2f \t \n %.2f \t %.2f \t %.2f \t %.2f \t \n %.2f \t %.2f \t %.2f \t %.2f \t ", soma1, soma3, soma4, soma7, eliminacao11, eliminacao12, eliminacao13, eliminacao14, eliminacao31, eliminacao32, eliminacao33, eliminacao34);
+		}else//calcular usando segunda linha
+		{
+			gauss3=soma0/soma1;
+			gauss4=soma3/soma1;
+			
+			eliminacao11=soma0-soma1*gauss3;
+			eliminacao12=soma1-soma3*gauss3;
+			eliminacao13=soma2-soma4*gauss3;
+			eliminacao14=soma6-soma7*gauss3;
+			
+			eliminacao21=soma2-soma1*gauss4;
+			eliminacao22=soma4-soma3*gauss4;
+			eliminacao23=soma5-soma4*gauss4;
+			eliminacao24=soma8-soma7*gauss4;
+			
+			gauss5=eliminacao22/eliminacao12;
+			
+			eliminacao31=eliminacao21-eliminacao11*gauss5;
+			eliminacao32=eliminacao22-eliminacao12*gauss5;
+			eliminacao33=eliminacao23-eliminacao13*gauss5;
+			eliminacao34=eliminacao24-eliminacao14*gauss5;
+		
+			printf("\n\nEliminação de Gauss:\n");
+			printf("\n %.2f \t %.2f \t %.2f \t %.2f \t \n %.2f \t %.2f \t %.2f \t %.2f \t \n %.2f \t %.2f \t %.2f \t %.2f \t ", soma0, soma1, soma2, soma6, eliminacao11, eliminacao12, eliminacao13, eliminacao14, eliminacao31, eliminacao32, eliminacao33, eliminacao34);
+		}
+		
+		a2=eliminacao34/eliminacao33;
+		
+		aux1=eliminacao13*a2;
+		aux2=eliminacao14-aux1;
+		a1=aux2/eliminacao12;
+		
+		if(gauss1>1 && gauss2>1)
+		{
+			aux3=soma2*a2;
+			aux4=soma1*a1;
+			aux5=soma6-aux4-aux3;
+			a0=aux5/soma0;
+		}//pivo sendo da segunda linha
+		else
+		{
+			aux3=soma4*a2;
+			aux4=soma3*a1;
+			aux5=soma7-aux4-aux3;
+			a0=aux5/soma1;
+		}//pivo sendo da primeira linha
+		
+		printf("\n\nRespostas:\n");
+		printf("\n a0=%.3f \n a1=%.3f\n a2=%.3f\n\n", a0, a1, a2);
+		
+		printf("A reta que melhor aproxima da função tabelada é p(x)= %.3f + %.3fx + %.3fX^2", a0, a1, a2);
+}//parabola
+
+
+
+
+
+

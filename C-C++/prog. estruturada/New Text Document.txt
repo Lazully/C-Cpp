@@ -1,0 +1,80 @@
+/* Grupo 9 - Nome e RA dos integrantes:
+Daniel Hiroshi Fugikawa - 200209 
+Letícia Lopes Fogaça - 200670 
+Breno Capelupo Angelotti - 200069
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct aluno{
+	int 	reg;
+	char 	nome[80];
+	char 	RA[7];
+  int emprestado; //quantidade de livros emprestados max=3
+  int reservado; //quantidade de livros reservados max=1
+ 	}aluno;
+
+void aloca(aluno **p,int tam);
+void cadastro(aluno *p);
+void mostra(aluno *p,int tam);
+
+main()
+{
+aluno *ag=NULL;
+int cont=0 , co;
+char op;
+
+printf("\n[1]Cadastro de aluno\n[2]Deposito\n[3]Retirada\n[4]Fim\nOpcao: ");
+scanf("%i",&co);
+fflush(stdin);
+system("cls");
+switch(co){
+case 1 :
+do{
+  aloca(&ag,cont+1);
+	cadastro(ag+cont);
+	cont++;
+	printf("\nDeseja continuar <S/N>: ");
+	scanf("%c",&op);
+	fflush(stdin);
+}while(op=='s' || op=='S');
+mostra(ag,cont);
+}
+}//main
+
+void aloca(aluno **p,int tam)
+{
+if((*p=(aluno*)realloc(*p,tam*sizeof(aluno)))==NULL)
+  exit(1);
+}//aloca
+
+void cadastro(aluno *p)
+{
+  static int n=1;
+
+  p->reg=n;
+  n++;
+  printf("\nNome: ");
+  gets(p->nome);
+  fflush(stdin);
+
+  printf("\nRA: ");
+  gets(p->RA);
+  fflush(stdin);
+}//cadastro
+
+void mostra(aluno *p,int tam)
+{
+int i;
+
+system("cls");
+for(i=0;i<tam;i++)
+  printf("\nRegistro: %i\nNome: %s\nRA: %s\n\n",(p+i)->reg,(p+i)->nome,(p+i)->RA);
+}//mostra
+
+
+
+
+

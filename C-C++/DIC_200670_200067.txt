@@ -1,0 +1,91 @@
+//Antônio Nery Lopes Neto RA: 200067
+//Letícia Lopes Fogaça RA: 200670
+
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<math.h>
+#include<conio.h>
+#include<locale.h>
+
+//funções
+void criaF(float *p); //recebe os termos da função
+void verificaValida(int qnttermos, int grau[10], float coef[10]); //verifica se a raíz é valida
+void calculaMedia(float *p);
+void mostraRaiz(float *p);
+float calcularaiz(float *p);
+float f(float x, int qnttermos, int grau[10], float coef[10]);
+
+int main()
+{
+    //qnttermos - quantidade de termos
+    //grau - recebe a quantidade de graus da função
+    //i - variável auxiliar
+
+    //coef - coeficiente da função
+    //inteM - Maior valor do intervalo
+    //inten - menor valor do intervalo
+    //erro - erro da função
+    //raiz - raiz da função
+    //prec - precisão da função
+    setlocale(LC_ALL, "Portuguese");
+	int qnttermos, grau[10], i, func, x;
+    float coef[10], erro, raiz, prec, media;
+    float inten, inteM;
+    int *p_qnttermos;
+
+    printf("Seja bem vindo! Este programa irá te ajudar a encontrar os zeros da função.");
+    printf("\nTemos apenas uma regra:\n");
+
+    printf("A equação possiu quantos termos? (Com máximo de 10 termos) ");
+    scanf("%i", &qnttermos);
+    //*p_qnttermos = qnttermos;
+
+    if(qnttermos<=10 && qnttermos>=0)
+    {
+    for(i=0; i<qnttermos; i++)
+    {
+        printf("\nQual grau do %iº termo?", i+1);
+        scanf("%i", &grau[i]);
+        printf("\nQual coeficiente do %iº termo?", i+1);
+        scanf("%f", &coef[i]);
+    }//for
+    }else
+    {
+        printf("\n Quantidade de termos inválido!!");
+    }//else
+    printf("\n\nQual o valor da precisão?");
+    scanf("%f", &prec);
+	verificaValida(qnttermos, grau, coef);
+
+	media=(inten+inteM)/2;
+	printf("A média é: %f", media);
+	    system("PAUSE");
+    return 0;
+}
+
+
+    void verificaValida(int qnttermos, int grau[10], float coef[10])
+    {
+        int validaRaiz;
+        float inten, inteM;
+            printf("\n\nDigite o valor do intervalo(foi utilizado setlocale):");
+    		scanf("%f %f",&inten,&inteM);
+        validaRaiz = (f(inteM, qnttermos, grau, coef)*f(inten, qnttermos, grau, coef) > 0?0:1);
+            if(validaRaiz == 0)
+            {
+                printf("\nIntervalo [%f;%f] não satisfaz as condições.", inten, inteM);
+                exit (1);
+            }
+    }
+    
+    float f(float x, int qnttermos, int grau[10], float coef[10])
+    {
+		int i;
+		float total=0;
+    	for(i=0;i<qnttermos;i++)
+    	{
+    			total= coef[i]*(pow(x, grau[i]));   //2x^3
+		}
+		return total;
+	}
+	

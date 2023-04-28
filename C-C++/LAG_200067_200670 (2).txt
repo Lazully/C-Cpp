@@ -1,0 +1,146 @@
+//Antônio Nery Lopes Neto RA: 200067
+//Letícia Lopes Fogaça RA: 200670
+
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<math.h>
+#include<conio.h>
+#include<locale.h>
+
+//funções
+float VerificaPonto(float x[10], float a, int qntpontos, float maior, float menor);
+float calculalag(int qntpontos, float x[10], float a, float maior, float menor);
+
+int main()
+{
+    setlocale(LC_ALL, "Portuguese");
+    int qntpontos, i;
+    float x[10], y[10], a, maior, menor;
+    char op;
+
+do
+{
+    printf("Quantos pontos tem na tabela?");
+    scanf("%i", &qntpontos);
+
+    if(qntpontos<=5 && qntpontos>=0)
+    {
+    for(i=0; i<qntpontos; i++)
+    {
+        printf("\nQual o %iº valor de x?", i+1);
+        scanf("%f", &x[i]);
+        printf("\nQual o %iº de f(x)?", i+1);
+        scanf("%f", &y[i]);
+    }//for
+    }
+    printf("Digite qual ponto de x deseja interpolar:");
+    scanf("%f", &a);
+    
+VerificaPonto(x, a, qntpontos, maior, menor);
+calculalag(qntpontos, x, a, maior, menor);
+
+printf("Deseja interpolar outro ponto? [S/N]");
+scanf(" %c", &op);
+
+}while(op=='s' || op=='S')
+
+    system("PAUSE");
+    return 0;
+}//main
+
+float VerificaPonto(float x[10], float a, int qntpontos, float maior, float menor)
+{
+	
+	if(qntpontos==2 && x[0]<x[1])
+	{
+		maior=x[1];
+		menor=x[0];
+	}//2 pontos com primeiro x menor
+	else if(qntpontos==2 && x[0]>x[1])
+	{
+		maior=x[0];
+		menor=x[1];
+	}//2 pontos com segundo x maior
+	else if(qntpontos==3 && x[0]>x[1] && x[0]>x[2] && x[1]<x[2])
+	{
+		maior=x[0];
+		menor=x[1];
+	}//x[0] maior e x[1] menor
+	else if(qntpontos==3 && x[0]>x[1] && x[0]>x[2] && x[1]>x[2])
+	{
+		maior=x[0];
+		menor=x[2];
+	}//x[0] maior e x[2] menor
+	else if(qntpontos==3 && x[1]>x[0] && x[1]>x[2] && x[0]<x[2])
+	{
+		maior=x[1];
+		menor=x[0];
+	}//x[1] maior e x[0] menor
+	else if(qntpontos==3 && x[1]>x[0] && x[1]>x[2] && x[0]>x[2])
+	{
+		maior=x[1];
+		menor=x[2];
+	}//x[1] maior e x[2] menor
+	else if(qntpontos==3 && x[2]>x[0] && x[2]>x[1] && x[0]<x[1])
+	{
+		maior=x[2];
+		menor=x[0];
+	}//x[2] maior e x[0] menor
+	else if(qntpontos==3 && x[2]>x[0] && x[2]>x[1] && x[0]>x[1])
+	{
+		maior=x[2];
+		menor=x[1];
+	}//x[2] maior e x[1] menor
+	
+calculalag(qntpontos, x, a, maior, menor);
+
+    return 0;
+}//verifica ponto
+float calculalag(int qntpontos, float x[10], float a, float maior, float menor)
+{
+	float L0, L1, L2, L3;
+	
+	if(qntpontos==2 && a>menor && a<maior)
+	{
+		L0=(a-x[1])/(x[0]-x[1]);
+		L1=(a-x[0])/(x[1]-x[0]);
+		
+		printf("O cálculo de Ln:\n");
+		printf("L[0]= %f\n", L0);
+		printf("L[1]= %f\n", L1);
+	}//2 pontos
+		
+	else if(qntpontos==3)
+	{
+		
+		L0=(a-x[1])*(a-x[2])/(x[0]-x[1])*(x[0]-x[2]);
+		L1=(a-x[0])*(a-x[2])/(x[1]-x[0])*(x[1]-x[2]);
+		L2=(a-x[0])*(a-x[1])/(x[2]-x[0])*(x[2]-x[1]);
+	
+		printf("O cálculo de Ln:\n");
+		printf("L[0]= %f\n", L0);
+		printf("L[1]= %f\n", L1);
+		printf("L[2]= %f\n", L2);
+	}//3 pontos
+	else if(qntpontos==4)
+	{
+		L0=(a-x[1])*(a-x[2])*(a-x[3])/(x[0]-x[1])*(x[0]-x[2])*(x[0]-x[3]);
+		L1=(a-x[0])*(a-x[2])*(a-x[3])/(x[1]-x[0])*(x[1]-x[2])*(x[1]-x[3]);
+		L2=(a-x[0])*(a-x[1])*(a-x[3])/(x[2]-x[0])*(x[2]-x[1])*(x[2]-x[3]);
+		L3=(a-x[0])*(a-x[1])*(a-x[2])/(x[3]-x[0])*(x[3]-x[1])*(x[3]-x[2]);
+	
+		printf("O cálculo de Ln:\n");
+		printf("L[0]= %f\n", L0);
+		printf("L[1]= %f\n", L1);
+		printf("L[2]= %f\n", L2);
+		printf("L[3]= %f\n", L3);
+	}else
+		printf("Número inválido para a tabela\n!!");//4 pontos
+		
+		return 1;
+	
+}//calcula lagrange
+
+
+
+
