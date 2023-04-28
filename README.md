@@ -1,1 +1,1 @@
-# C-Cpp
+Este é um repositório criado para guardar alguns projetos que fiz durante os dois anos de Engenharia da Computação que cursei. Alguns contam com mais de um participante. O intuito desse repositório é poder guardá-los antes que eu os perca.
